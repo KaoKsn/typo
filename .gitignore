@@ -1,0 +1,11 @@
+*.o
+*.s
+*.obj
+*.so
+*.lib
+a.out
+*.exe
+*.swp
+
+# Build folder and files.
+build/
