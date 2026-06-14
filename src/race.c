@@ -42,9 +42,11 @@ play(char *text) {
         read(0, &buf, sizeof(char));
         memset(cbuf, 0, sizeof(char) * 32);
         // erase in case of backspace.
-        if ((buf == 8 || buf == 127) && typed != 0) {
-            write(1, hitback, sizeof(char) * 3);
-            typed--;
+        if (buf == 8 || buf == 127) {
+            if (typed > 0) {
+                write(1, hitback, sizeof(char) * 3);
+                typed--;
+            }
         } else {
             if (buf != text[typed]) {
                 snprintf(cbuf, sizeof(char) * 32, "\x1b[31m%c\x1b[0m", buf);
@@ -87,11 +89,11 @@ printstats(int len, time_t start, time_t end)
     */
     float wpm = (len * 60) / (time * 4);
     printf("\n\n");
-    printf("\x1b[30m┌─────────────────────────────────────┐\x1b[0m\n");
-    printf("\x1b[30m│ Stats:                              │\x1b[0m\n");
-    printf("\x1b[30m├─────────────────────────────────────┤\x1b[0m\n");
-    printf("\x1b[30m│ Calculated wpm: %7.2f             │\x1b[0m\n", wpm);
-    printf("\x1b[30m│ Characters typed: %d                │\x1b[0m\n", len);
-    printf("\x1b[30m│ Complete in %.3lf seconds.          │\x1b[0m\n", time);
-    printf("\x1b[30m└─────────────────────────────────────┘\x1b[0m\n");
+    printf("\x1b[33m┌─────────────────────────────────────┐\x1b[0m\n");
+    printf("\x1b[33m│ Stats:                              │\x1b[0m\n");
+    printf("\x1b[33m├─────────────────────────────────────┤\x1b[0m\n");
+    printf("\x1b[33m│ Calculated wpm: %7.2f             │\x1b[0m\n", wpm);
+    printf("\x1b[33m│ Characters typed: %d                │\x1b[0m\n", len);
+    printf("\x1b[33m│ Complete in %6.3lf seconds.         │\x1b[0m\n", time);
+    printf("\x1b[33m└─────────────────────────────────────┘\x1b[0m\n");
 }
